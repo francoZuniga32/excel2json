@@ -38,25 +38,26 @@ This service can convert an excel to json and a json to excel.
 You can build the image or get it from [Docker Hub](https://hub.docker.com/repository/docker/francozuniga32/excel2jsonapi).
 
 You can change the port by environment variable or by default it will listen to port 3000.
-bash
+
+```bash
 npm run serve
-''
+```
 
 now you can use the api as follows:
-`` text
+``` text
 // normal form you have to pass an .xlsx file through form data with the key "file"
 http://localhost:3000/excel2json
 
-''
+```
 
 now it only remains to pass some simple configurations through get parameters or a configuration in txt in the form of json.
-`` text
+``` text
 // ignore a specified row
 http://localhost:3000/excel2json?ignorerow=1
 // indicate the leaves to take
 http://localhost:3000/excel2json?sheets=2,3,4
+```
 
-''
 >! AT THE MOMENT I ONLY NEED TO ADD THE KEY MAPS FOR THE COLUMNS
 
 now you can use it in such a way that you do not have to worry about implementing it in your system but use it as a ready-made service.
