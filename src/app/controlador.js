@@ -40,12 +40,12 @@ controlador.excel2jsonControl = async (req, res) => {
 
         try {
             var result = { sourceFile: path.join(__dirname, `../cache/${req.file.filename}`) };
-            if(req.query.ignorerow){
-                
+            if (req.query.ignorerow) {
+
                 result.header = { rows: req.query.ignorerow };
             }
 
-            if(req.query.sheets){
+            if (req.query.sheets) {
                 result.sheets = req.query.sheets.split(',');
             }
             console.log(result);
@@ -56,16 +56,39 @@ controlador.excel2jsonControl = async (req, res) => {
     });
 };
 
-controlador.json2excelControl = async(req, res)=>{
-    if(req.body.data && req.body.name){
-        let xlsx = require('json-as-xlsx');
+controlador.json2excelControl = async (req, res) => {
+    let xlsx = require('json-as-xlsx');
+    var data = [
+        {
+            sheet: 'Adults',
+            columns: [
+              { label: 'Name', value: 'name' },
+              { label: 'Age', value: 'age' }
+            ],
+            content: [
+              { name: 'Monserrat', age: 21, more: { phone: '11111111' } },
+              { name: 'Luis', age: 22, more: { phone: '12345678' } }
+            ]
+          }, {
+            sheet: 'Pets',
+            columns: [
+              { label: 'Name', value: 'name' },
+              { label: 'Age', value: 'age' }
+            ],
+            content: [
+              { name: 'Malteada', age: 4, more: { phone: '99999999' } },
+              { name: 'Picadillo', age: 1, more: { phone: '87654321' } }
+            ]
+          }
+    ];
 
-        res.send(data, {
-            fileName: path.join(__dirname, `../download/`)+req.body.name,
-        })
-    }else{
-        res.status(401).send({err: "falta el data array para convertir a .xlsx"});
-    }
+    var seting = {
+        fileName: 'MySpreadsheet', // Name of the resulting spreadsheet
+        extraLength: 3, // A bigger number means that columns will be wider
+        writeOptions: {}
+    };
+    const buffer = xlsx(data, seting);
+    res.end(buffer)
 }
 
 function encriptfile(filename) {
